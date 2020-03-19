@@ -16,6 +16,12 @@
             lookupTable="/lookup/lookup.properties"
             script="/anonymizer.properties"
             quarantine="ctpData/projectName/siteName/quarantines/dicom-anonymizer" />
+        <DicomAnonymizer
+            name="XNAT Project Definition"
+            class="org.rsna.ctp.stdstages.DicomAnonymizer"
+            root="ctpData/projectName/siteName/roots/xnat-anonymizer"
+            script="/xnat.script"
+            quarantine="ctpData/projectName/siteName/quarantines/xnat-anonymizer" />
        <DicomExportService
             name="DicomExportService"
             class="org.rsna.ctp.stdstages.DicomExportService"

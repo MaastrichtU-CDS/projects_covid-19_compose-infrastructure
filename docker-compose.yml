@@ -56,6 +56,7 @@ services:
       - ./ctp/config.xml:/CTP/config.xml
       - ./lookup:/lookup
       - ./ctp/anonymizer.properties:/anonymizer.properties
+      - ./ctp/xnat.script:/xnat.script
       - /home/johan/covid19/mnt/xnat/ctp_import:/_IMPORT
     depends_on:
       - xnat-web
