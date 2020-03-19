@@ -1,0 +1,31 @@
+<Configuration>
+
+   <Server port="80" />
+
+   <Pipeline name="COVID19_IMPORT">
+        <ImportService
+            name="Client Directory Import"
+            class="org.rsna.ctp.stdstages.DirectoryImportService"
+            root="ctpData/projectName/siteName/roots/directory-import"
+            import="/_IMPORT"
+            quarantine="ctpData/projectName/siteName/quarantines/directory-import" />
+        <DicomAnonymizer
+            name="Client DICOM Anonymizer"
+            class="org.rsna.ctp.stdstages.DicomAnonymizer"
+            root="ctpData/projectName/siteName/roots/dicom-anonymizer"
+            lookupTable="/lookup/lookup.properties"
+            script="/anonymizer.properties"
+            quarantine="ctpData/projectName/siteName/quarantines/dicom-anonymizer" />
+       <DicomExportService
+            name="DicomExportService"
+            class="org.rsna.ctp.stdstages.DicomExportService"
+            root="ctpData/projectName/siteName/roots/dicomExport" 
+            quarantine="ctpData/projectName/siteName/quarantines/dicomExport"
+            url="dicom://XNAT:CTP_IMPORT@xnat-web:8104"
+            associationTimeout="0"
+            forceClose="no"
+            dicomScript="scripts/df.script"
+            interval="5000" /> 
+   </Pipeline>
+
+</Configuration>

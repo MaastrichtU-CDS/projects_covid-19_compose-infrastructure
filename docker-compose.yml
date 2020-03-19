@@ -43,9 +43,20 @@ services:
       - "8081:80"
     volumes:
       - ./xnat-download-service/config.json:/app/config.json
-      - ./xnat-download-service/patientLookup.json:/app/patientLookup.json
-      - ./xnat-download-service/lookup.properties:/app/lookup.properties
+      - ./lookup/patientLookup.json:/app/patientLookup.json
+      - ./lookup/lookup.properties:/app/lookup.properties
       - /home/johan/covid19/mnt/xnat/ctp_import:/app/DOWNLOADS
+    depends_on:
+      - xnat-web
+  ctp:
+    image: jvsoest/ctp
+    ports:
+      - "8082:80"
+    volumes:
+      - ./ctp/config.xml:/CTP/config.xml
+      - ./lookup:/lookup
+      - ./ctp/anonymizer.properties:/anonymizer.properties
+      - /home/johan/covid19/mnt/xnat/ctp_import:/_IMPORT
     depends_on:
       - xnat-web
   
