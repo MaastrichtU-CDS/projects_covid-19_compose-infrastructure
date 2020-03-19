@@ -13,57 +13,36 @@ services:
         TOMCAT_XNAT_FOLDER: ROOT
         XNAT_ROOT: /data/xnat
         XNAT_HOME: /data/xnat/home
+    restart: unless-stopped
     ports:
-      - "8081:8080"
+      - "8080:8080"
       - "8000:8000"
-      - "22:22"
+      - "8104:8104"
     volumes:
       - ./xnat/plugins:/data/xnat/home/plugins
-      - ./xnat-data/home/logs:/data/xnat/home/logs
-      - ./xnat-data/archive:/data/xnat/archive
-      - ./xnat-data/build:/data/xnat/build
+      - /home/johan/covid19/mnt/xnat/xnat-data/home/logs:/data/xnat/home/logs
+      - /home/johan/covid19/mnt/xnat/xnat-data/archive:/data/xnat/archive
+      - /home/johan/covid19/mnt/xnat/xnat-data/build:/data/xnat/build
+      - /home/johan/covid19/mnt/xnat/xnat-data/cache:/data/xnat/cache
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - xnat-db
     environment:
-      - CATALINA_OPTS=-Xms128m -Xmx2048m -Dxnat.home=/data/xnat/home -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+      - CATALINA_OPTS=-Xms1024m -Xmx4096m -Dxnat.home=/data/xnat/home -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
       - XNAT_HOME=/data/xnat/home
 
   xnat-db:
     build: ./postgres
+    restart: unless-stopped
     expose:
       - "5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
-  xnat-nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-    expose:
-      - "80"
-    links:
-      - xnat-web
-
-  # prometheus:
-  #   image: prom/prometheus
-  #   volumes:
-  #     - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
-  #   command:
-  #     - '-config.file=/etc/prometheus/prometheus.yaml'
-  #   ports:
-  #     - '9090:9090'
-  #   links:
-  #     - cadvisor
-  #
-  # cadvisor:
-  #   image: google/cadvisor
-  #   volumes:
-  #     - /:/rootfs:ro
-  #     - /var/run:/var/run:rw
-  #     - /sys:/sys:ro
-  #     - /var/lib/docker/:/var/lib/docker:ro
-  #   ports:
-  #     - "8082:8080"
-  #   expose:
-  #     - 8082
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet:  192.169.230.1/24
