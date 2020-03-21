@@ -9,6 +9,12 @@
             root="ctpData/projectName/siteName/roots/directory-import"
             import="/_IMPORT"
             quarantine="ctpData/projectName/siteName/quarantines/directory-import" />
+        <DicomFilter
+            name="DicomFilter"
+            id="stage ID"
+            class="org.rsna.ctp.stdstages.DicomFilter"
+            root="ctpData/projectName/siteName/roots/dicom-filter" 
+            script="/filter.script"/>
         <DicomAnonymizer
             name="Client DICOM Anonymizer"
             class="org.rsna.ctp.stdstages.DicomAnonymizer"

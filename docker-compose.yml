@@ -50,6 +50,7 @@ services:
       - xnat-web
   ctp:
     image: jvsoest/ctp
+    restart: unless-stopped
     ports:
       - "8082:80"
     volumes:
@@ -57,10 +58,10 @@ services:
       - ./lookup:/lookup
       - ./ctp/anonymizer.properties:/anonymizer.properties
       - ./ctp/xnat.script:/xnat.script
+      - ./ctp/filter.script:/filter.script
       - /home/johan/covid19/mnt/xnat/ctp_import:/_IMPORT
     depends_on:
       - xnat-web
-  
 
 networks:
   default:
